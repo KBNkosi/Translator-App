@@ -6,6 +6,12 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily:{
+        sans:["DM Sans","ui-sans-serif", "system-ui"],
+      },
+      colors:{
+        primary: "#212936cc",
+      },
       backgroundImage:{
         "heroImg":"url('images/hero_img.jpg')",
       },

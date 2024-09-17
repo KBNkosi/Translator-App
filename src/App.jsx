@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Translator from "./Translator";
+import Translator from "./components/Translator";
 
 function App() {
   return (

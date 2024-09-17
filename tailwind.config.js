@@ -11,6 +11,12 @@ export default {
       },
       colors:{
         primary: "#212936cc",
+        btnBlue: "#3662E3",
+        lightBlue: "#7CA9F3",
+        lighter: "#F9FAFB",
+        tDark: "#040711",
+        txtColor:"#4D5562"
+
       },
       backgroundImage:{
         "heroImg":"url('images/hero_img.jpg')",

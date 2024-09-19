@@ -1,13 +1,19 @@
 import { useState } from "react";
+import {detect} from 'lang-detector'
 import languages from "./Languages";
 import audioIcon from "/images/sound_max_fill.svg";
 import copyIcon from "/images/Copy.svg";
 import exchangeIcon from "/images/Horizontal_top_left_main.svg";
 export default function Translator() {
+  
   const [inputText, setInputText] = useState("");
+  const [placeholderText, setPlaceholderText]=useState("");
   const [outputText, setOutputText] = useState("");
   const [inputLang, setInputLang] = useState("en");
   const [outputLang, setOutputLang] = useState("es");
+  
+  const txtDetect=detect(inputText);
+  console.log(txtDetect);
 
   //function to handle text and language exchange/swap
   function handleExchange() {
@@ -64,12 +70,12 @@ export default function Translator() {
       <section className="trasnlator">
         <div className="row-wrapper flex justify-center items-center h-screen gap-4 mx-9">
           {/*Input container */}
-          <div className="translator-container relative p-3  w-1/2  bg-primary">
+          <div className="translator-container relative border-2 border-txtColor rounded-custom-lg p-3  w-1/2  bg-primary">
             <div className="top-row z-10 m-3">
-              <ul className="lang-list flex space-x-6 justify-start ">
-                <li><button>Detect Language</button></li>
-                <li><button>English</button></li>
-                <li><button>French</button></li>
+              <ul className="lang-list  flex space-x-6 justify-start text-txtColor font-bold  text-base">
+                <li><button onClick={()=>setPlaceholderText("Enter text in any language")}>Detect Language</button></li>
+                <li><button onClick={()=>setPlaceholderText("Enter text in English")}>English</button></li>
+                <li><button onClick={()=>setPlaceholderText("Enter text in French")}>French</button></li>
                 <li>
                   <select
                     name="input-lang"
@@ -90,17 +96,17 @@ export default function Translator() {
             <hr />
 
             <textarea
-              className=" w-full h-full resize-none p-0 m-0 border-0 z-0 bg-transparent"
+              className=" w-full h-full resize-none p-0 m-0 border-0 z-0 bg-transparent text-white"
               name="input-text"
               id="input-text"
               cols="30"
               rows="10"
-              placeholder="Enter text"
+              placeholder={placeholderText}
               onChange={handleInputChange}
               value={inputText}
             ></textarea>
 
-            <div className="char-count text-white flex justify-end z-10">
+            <div className="char-count text-white text-xs m-3 text-txtColor flex justify-end z-10">
               {inputText.length}/500
             </div>
             <div className="input-bottom-row flex justify-between z-10">
@@ -109,7 +115,7 @@ export default function Translator() {
                   <img
                     src={audioIcon}
                     alt="audio Icon"
-                    className="w-8"
+                    className="w-8 icon-style"
                     onClick={() => handleAudioClick(inputText)}
                   />
                 </button>
@@ -117,25 +123,24 @@ export default function Translator() {
                   <img
                     src={copyIcon}
                     alt="Copy Icon"
-                    className="w-8"
+                    className="w-8 icon-style ml-2"
                     onClick={() => handleCopyText(inputText)}
                   />
                 </button>
               </div>
               <div className="translate-btn">
-                <button className="text-lighter bg-btnBlue px-4 py-2 " onClick={handleTranslate}>
-                  Translate
+                <button className="text-lighter bg-btnBlue px-4 py-2 font-medium text-lg border-2 border-ligther rounded-custom-sz" onClick={handleTranslate}>
+                  <span className="underline" >A</span> Translate
                 </button>
               </div>
             </div>
           </div>
 
           {/*Output container*/}
-          <div className="translator-container  p-4  w-1/2 bg-primary">
+          <div className="translator-container  p-4  w-1/2 bg-primary border-2 border-txtColor rounded-custom-lg">
             <div className="top-row m-3 flex justify-between">
               <div>
-                <ul className="lang-list flex space-x-6 justify-start ">
-                  <li><button>Detect Language</button></li>
+                <ul className="lang-list flex space-x-6 justify-start text-txtColor font-bold text-base ">
                   <li><button>English</button></li>
                   <li><button>French</button></li>
                   <li>
@@ -158,7 +163,7 @@ export default function Translator() {
                   <img
                     src={exchangeIcon}
                     alt="Exchange Icon"
-                    className="w-6"
+                    className="w-8 icon-style"
                     onClick={handleExchange}
                   />
                 </button>
@@ -166,7 +171,7 @@ export default function Translator() {
             </div>
             <hr />
             <textarea
-              className=" w-full h-full resize-none p-0 m-0 border-0 z-0 bg-transparent"
+              className=" w-full h-full resize-none p-0 m-0 border-0 z-0 bg-transparent text-white"
               name="output-text"
               id="output-text"
               cols="30"
@@ -180,7 +185,7 @@ export default function Translator() {
                   <img
                     src={audioIcon}
                     alt="audio Icon"
-                    className="w-8"
+                    className="w-8 icon-style"
                     onClick={() => handleAudioClick(outputText)}
                   />
                 </button>
@@ -188,7 +193,7 @@ export default function Translator() {
                   <img
                     src={copyIcon}
                     alt="Copy Icon"
-                    className="w-8"
+                    className="w-8 icon-style ml-2"
                     onClick={() => handleCopyText(outputText)}
                   />
                 </button>

@@ -2,8 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base{
+
     body{
         @apply font-sans;
     }
-}
+
+    .icon-style{
+        @apply border-4 border-txtColor rounded-custom-sz;
+    }
+
+    li{
+        @apply hover:text-white; 
+        @apply hover:rounded-custom-sz;
+        @apply hover:bg-secondary;  
+        @apply p-2;  
+        
+
+    }

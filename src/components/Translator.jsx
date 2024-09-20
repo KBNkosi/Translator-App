@@ -12,8 +12,7 @@ export default function Translator() {
   const [inputLang, setInputLang] = useState("en");
   const [outputLang, setOutputLang] = useState("es");
   
-  const txtDetect=detect(inputText);
-  console.log(txtDetect);
+ 
 
   //function to handle text and language exchange/swap
   function handleExchange() {

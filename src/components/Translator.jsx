@@ -1,18 +1,17 @@
 import { useState } from "react";
-import {detect} from 'lang-detector'
+import { franc } from "franc";
 import languages from "./Languages";
 import audioIcon from "/images/sound_max_fill.svg";
 import copyIcon from "/images/Copy.svg";
 import exchangeIcon from "/images/Horizontal_top_left_main.svg";
 export default function Translator() {
-  
   const [inputText, setInputText] = useState("");
-  const [placeholderText, setPlaceholderText]=useState("");
+  const [placeholderText, setPlaceholderText] = useState("");
   const [outputText, setOutputText] = useState("");
   const [inputLang, setInputLang] = useState("en");
   const [outputLang, setOutputLang] = useState("es");
-  
- 
+
+
 
   //function to handle text and language exchange/swap
   function handleExchange() {
@@ -33,7 +32,7 @@ export default function Translator() {
         alert("Text copied to clipboard!");
       })
       .catch((error) => {
-        console.error("Failed t copy text:", error);
+        console.error("Failed to copy text:", error);
       });
   }
 
@@ -48,47 +47,59 @@ export default function Translator() {
   /**
    * Handles input text changes. Only updates state if text length is 500 or less.
    */
-  function handleInputChange(event){
-    const text=event.target.value;
-    if(text.length<=500){
-      setInputText(text);
-    }
+  function handleInputChange(event) {
+    const text = event.target.value;
+    const detectLang = franc(text);
+
+    setInputLang(
+      detectLang === "und" ? "en" : detectLang
+    );
+
+    setInputText(text.length > 500 ? "" : text);
   }
 
   //function to handle text translation
-  function handleTranslate(){
-    const url=`https://api.mymemory.translated.net/get?q=${inputText}&langpair=${inputLang}|${outputLang}`;
+  function handleTranslate() {
+    const url = `https://api.mymemory.translated.net/get?q=${inputText}&langpair=${inputLang}|${outputLang}`;
     fetch(url)
-    .then((res=>res.json()))
-    .then((data)=>(
-      setOutputText(data.responseData.translatedText)
-    ))
+      .then((res) => res.json())
+      .then((data) => setOutputText(data.responseData.translatedText));
   }
+
+  /**
+   * relative border-2 border-txtColor rounded-custom-lg p-3  w-1/2
+   *  p-4  w-1/2 bg-primary border-2 border-txtColor rounded-custom-lg
+   */
   return (
     <>
       <section className="trasnlator">
         <div className="row-wrapper flex justify-center items-center h-screen gap-4 mx-9">
           {/*Input container */}
-          <div className="translator-container relative border-2 border-txtColor rounded-custom-lg p-3  w-1/2  bg-primary">
+          <div className="translator-container flex-1 p-4    bg-primary">
             <div className="top-row z-10 m-3">
               <ul className="lang-list  flex space-x-6 justify-start text-txtColor font-bold  text-base">
-                <li><button onClick={()=>setPlaceholderText("Enter text in any language")}>Detect Language</button></li>
-                <li><button onClick={()=>setPlaceholderText("Enter text in English")}>English</button></li>
-                <li><button onClick={()=>setPlaceholderText("Enter text in French")}>French</button></li>
                 <li>
-                  <select
-                    name="input-lang"
-                    id="input-lang"
-                    value={inputLang}
-                    onChange={(event) => setInputLang(event.target.value)}
-                    className="bg-transparent"
+                  <button
+                    onClick={() =>
+                      setPlaceholderText("Enter text in any language")
+                    }
                   >
-                    {Object.entries(languages).map(([code, val]) => (
-                      <option key={code} value={val}>
-                        {val}
-                      </option>
-                    ))}
-                  </select>
+                    Detect Language
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setPlaceholderText("Enter text in English")}
+                  >
+                    English
+                  </button>
+                </li>
+                <li>
+                  <button
+                    onClick={() => setPlaceholderText("Enter text in French")}
+                  >
+                    French
+                  </button>
                 </li>
               </ul>
             </div>
@@ -128,20 +139,27 @@ export default function Translator() {
                 </button>
               </div>
               <div className="translate-btn">
-                <button className="text-lighter bg-btnBlue px-4 py-2 font-medium text-lg border-2 border-ligther rounded-custom-sz" onClick={handleTranslate}>
-                  <span className="underline" >A</span> Translate
+                <button
+                  className="text-lighter bg-btnBlue px-4 py-2 font-medium text-lg border-2 border-ligther rounded-custom-sz"
+                  onClick={handleTranslate}
+                >
+                  <span className="underline">A</span> Translate
                 </button>
               </div>
             </div>
           </div>
 
           {/*Output container*/}
-          <div className="translator-container  p-4  w-1/2 bg-primary border-2 border-txtColor rounded-custom-lg">
+          <div className="translator-container flex-1 p-4 bg-primary">
             <div className="top-row m-3 flex justify-between">
               <div>
                 <ul className="lang-list flex space-x-6 justify-start text-txtColor font-bold text-base ">
-                  <li><button>English</button></li>
-                  <li><button>French</button></li>
+                  <li>
+                    <button>English</button>
+                  </li>
+                  <li>
+                    <button>French</button>
+                  </li>
                   <li>
                     <select
                       name="output-lang"

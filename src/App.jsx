@@ -4,7 +4,7 @@ import Translator from "./components/Translator";
 function App() {
   return (
     <>
-      <div className="h-screen bg-heroImg bg-cover bg-center">
+      <div className="">
         <Translator/>
       </div>
     </>
